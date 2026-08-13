@@ -1,7 +1,5 @@
-# Sistema de Biblioteca
-# Execução pelo terminal
-
 usuarios = []
+
 
 
 def cadastrar_usuario():
