@@ -55,7 +55,7 @@ def emprestar_livro(livros):
 
             emprestimos.append(emprestimo)
 
-            print(f"\n Empréstimo realizado com sucesso! |{livro_encontrado['titulo']} {livro_encontrado['id']}|")
+            print(f"\n Empréstimo realizado com sucesso! | {livro_encontrado['titulo']} | {livro_encontrado['id']} |")
 
         elif opt == 2:
             os.system("cls" if os.name == "nt" else "clear")
