@@ -3,6 +3,8 @@ import os # acesso a funções que interagem com o sistema operacional (Windows,
 class Biblioteca:
     def __init__(self, metodos):
         self.m = metodos
+        self.lista_de_livros = metodos.livros.livros      # usa a lista fixa já definida em livros.py
+        self.lista_de_usuarios = []    # lista compartilhada de usuários
  
     def iniciar_biblioteca(self):
 
@@ -25,25 +27,25 @@ class Biblioteca:
             os.system("cls" if os.name == "nt" else "clear")  # limpa a tela (Windows ou Linux/Mac)
  
             if opt == 1:  # Opção para cadastrar livro
-                pass
+                self.m.livros.cadastrar_livro(self.lista_de_livros)
                
             elif opt == 2:  # opção para listar todos os livros disponíveis
-                pass
+                self.m.livros.listar_livros_disp(self.lista_de_livros)
               
             elif opt == 3:  # opção para buscar um livro
-                pass
+                self.m.livros.buscar_livro(self.lista_de_livros)
  
             elif opt == 4:  # opção para emprestar um livro
-                pass
+                self.m.emprestimos.emprestar_livro(self.lista_de_livros)
                
             elif opt == 5:  # opção para devolver um livro
-                pass
+                self.m.devolucoes.devolver_livro(self.lista_de_livros)
  
             elif opt == 6:  # opção para deletar um livro
-                pass
+                self.m.livros.deletar_livro(self.lista_de_livros)
 
             elif opt == 7: # opção para gerenciar usuarios
-                pass
+                self.m.usuarios.gestao_usuarios(self.lista_de_usuarios)
  
             elif opt == 8:  # opção para sair do programa
  

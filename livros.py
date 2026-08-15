@@ -4,7 +4,7 @@ livros = [
     {
         "id": "1",
         "titulo": "Senhor dos Anéis",
-        "disponivel": False
+        "disponivel": True
     },
     {
         "id": "2",
@@ -13,17 +13,7 @@ livros = [
     },
     {
         "id": "3",
-        "titulo": "Harry Potter e a Pedra Filosofal",
-        "disponivel": True
-    },
-    {
-        "id": "4",
         "titulo": "Death Note",
-        "disponivel": False
-    },
-    {
-        "id": "5",
-        "titulo": "Duna",
         "disponivel": True
     }
 ]
