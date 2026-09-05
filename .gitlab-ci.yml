@@ -1,0 +1,26 @@
+# Imagem base com Python para rodar os comandos
+image: python:3.11
+
+# Define a ordem de execução das etapas
+stages:
+  - build
+  - test
+  - deploy
+
+# Etapa 1: Build
+build_job:
+  stage: build
+  script:
+    - echo "Executando build do projeto..."
+
+# Etapa 2: Testes automatizados (roda os testes da pasta tests/)
+test_job:
+  stage: test
+  script:
+    - python -m unittest discover -s tests -v
+
+# Etapa 3: Deploy simulado (só executa se os testes passarem)
+deploy_job:
+  stage: deploy
+  script:
+    - echo "Deploy realizado com sucesso!"
