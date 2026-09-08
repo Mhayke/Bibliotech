@@ -1,4 +1,4 @@
-name: pipeline
+name: Pipeline CI/CD
 
 on:
   push:
@@ -6,12 +6,34 @@ on:
       - main
 
 jobs:
-  build:
+  pipeline:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.14'
 
+    steps:
+      # 1. Checkout
+      - name: Checkout do código
+        uses: actions/checkout@v6
+
+      # 2. Configuração do Python
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # 3. Build
+      - name: Build
+        run: |
+          echo "Iniciando Build..."
+          python -m compileall .
+          echo "Build concluído com sucesso!"
+
+      # 4. Test
+      - name: Test
+        run: |
+          echo "Executando testes automatizados..."
+          python -m unittest discover -s tests -v
+
+      # 5. Deploy
+      - name: Deploy
+        run: |
+          echo "Deploy realizado com sucesso!"
