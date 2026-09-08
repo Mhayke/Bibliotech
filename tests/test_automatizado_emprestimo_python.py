@@ -15,7 +15,7 @@ class TestEmprestimoLivro(unittest.TestCase):
             }
         ]
 
-        with patch("builtins.input", side_effect=["1", "L001"]):
+        with patch("builtins.input", side_effect=["1", "L001", "2"]):
             emprestar_livro(livros)
 
         self.assertEqual(livros[0]["disponivel"], False)
@@ -29,7 +29,7 @@ class TestEmprestimoLivro(unittest.TestCase):
             }
         ]
 
-        with patch("builtins.input", side_effect=["1", "L001"]):
+        with patch("builtins.input", side_effect=["1", "L001", "2"]):
             emprestar_livro(livros)
 
         self.assertEqual(livros[0]["disponivel"], False)
