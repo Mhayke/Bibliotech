@@ -1,57 +1,49 @@
 # Bibliotech
 
-O **Bibliotech** é uma aplicação de linha de comando (CLI), desenvolvida em
-Python, para o gerenciamento básico de livros, empréstimos, devoluções e
-usuários de uma biblioteca.
+O **Bibliotech** é um sistema interativo em linha de comando (CLI) desenvolvido em Python para o gerenciamento básico de uma biblioteca, incluindo controle de acervo de livros, empréstimos, devoluções e gestão de usuários.
 
-## 🚀 Funcionalidades 
+---
+
+## 🚀 Funcionalidades
 
 ### 📚 Gestão de Livros
+- **Cadastrar Livro**: Adiciona novos livros ao acervo garantindo IDs únicos.
+- **Livros Disponíveis**: Lista todos os livros cadastrados no momento que estão disponíveis para empréstimo.
+- **Buscar Livro**: Exibe informações detalhadas de um livro específico pesquisando pelo ID.
+- **Deletar Livro**: Remove um livro do acervo através do seu ID.
 
-- Cadastrar livros com ID, título e status de disponibilidade.
-- Listar somente os livros disponíveis.
-- Buscar um livro por ID e consultar seu status.
-- Excluir um livro por ID.
-- Impedir o cadastro de dois livros com o mesmo ID.
-
-O catálogo inicial contém:
-
-| ID | Título | Status inicial |
-| --- | --- | --- |
-| 1 | Senhor dos Anéis | Disponível |
-| 2 | O Hobbit | Disponível |
-| 3 | Death Note | Disponível |
-
-### 🔄 Empréstimos e devoluções
-
-- Emprestar um livro existente e disponível.
-- Impedir o empréstimo de um livro que já esteja emprestado.
-- Devolver um livro pelo ID e torná-lo disponível novamente.
-- Informar quando o livro não existe ou já está disponível.
-
-Os empréstimos são registrados em memória com o ID e o título do livro. O
-fluxo atual não solicita nem associa o empréstimo a um usuário.
+### 🔄 Empréstimos e Devoluções
+- **Emprestar Livro**: Registra o empréstimo de um livro disponível e altera seu status para indisponível.
+- **Devolver Livro**: Processa a devolução de um livro emprestado e altera seu status de volta para disponível.
 
 ### 👤 Gestão de Usuários
+- **Cadastrar Usuário**: Registra novos usuários com Nome e Identificador único.
+- **Listar Usuários**: Exibe todos os usuários cadastrados no sistema.
+- **Buscar Usuário**: Procura um usuário pelo seu identificador.
+- **Deletar Usuário**: Remove um usuário do sistema.
 
-- Cadastrar usuários com nome e identificador.
-- Listar usuários cadastrados.
-- Buscar um usuário por identificador.
-- Excluir um usuário por identificador.
-- Impedir identificadores de usuário duplicados.
+---
 
-## 🛠️ Como executar
+## 📁 Estrutura do Projeto
 
-Requisitos:
+- **`main.py`**: Ponto de entrada da aplicação, onde fica o menu principal interativo.
+- **`livros.py`**: Módulo com a lista base de livros e funções de CRUD para livros.
+- **`emprestimos.py`**: Módulo para tratamento e registro das solicitações de empréstimo.
+- **`devolucoes.py`**: Módulo para processamento de devolução de livros.
+- **`usuarios.py`**: Módulo para cadastro e gerenciamento de usuários.
+- **`metodos.py`**: Módulo unificador das funcionalidades dos outros módulos.
 
-- Python 3.x instalado. A baseline do projeto foi validada com Python 3.14.7.
-- Nenhuma dependência externa ou framework é necessária.
+---
 
-No terminal, execute:
+## 🛠️ Como Executar
+
+1. Certifique-se de ter o Python instalado (versão 3.x).
+2. Execute o script principal no terminal:
 
 ```bash
 python main.py
 ```
+<<<<<<< HEAD
 
 O programa limpa a tela automaticamente usando o comando apropriado para
 Windows, Linux ou macOS.
@@ -125,3 +117,5 @@ diretório `tests/` no estado atual do projeto.
 - A interface está disponível somente no terminal.
 - O módulo de livros não possui operação de atualização; as operações
 	disponíveis são cadastro, listagem, busca e exclusão.
+=======
+>>>>>>> c322f695f648648ba9de25c1e26fa67c3e3c883d
