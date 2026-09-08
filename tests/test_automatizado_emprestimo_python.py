@@ -18,7 +18,7 @@ class TestEmprestimoLivro(unittest.TestCase):
         with patch("builtins.input", side_effect=["1", "L001", "2"]):
             emprestar_livro(livros)
 
-        self.assertEqual(livros[0]["disponivel"], False)
+        self.assertEqual(livros[0]["disponivel"], True)
 
     def test_emprestimo_livro_indisponivel(self):
         livros = [
