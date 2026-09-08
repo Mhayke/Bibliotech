@@ -7,46 +7,32 @@ from emprestimos import emprestar_livro
 class TestEmprestimoLivro(unittest.TestCase):
 
     def test_emprestimo_livro_com_sucesso(self):
-        usuarios = [
-            {
-                "nome": "João",
-                "identificador": "001"
-            }
-        ]
-
         livros = [
             {
                 "titulo": "Dom Casmurro",
-                "identificador": "L001",
-                "disponibilidade": True
+                "id": "L001",
+                "disponivel": True
             }
         ]
 
-        with patch("builtins.input", side_effect=["001", "L001"]):
-            emprestar_livro(usuarios, livros)
+        with patch("builtins.input", side_effect=["1", "L001"]):
+            emprestar_livro(livros)
 
-        self.assertEqual(livros[0]["disponibilidade"], False)
+        self.assertEqual(livros[0]["disponivel"], False)
 
     def test_emprestimo_livro_indisponivel(self):
-        usuarios = [
-            {
-                "nome": "João",
-                "identificador": "001"
-            }
-        ]
-
         livros = [
             {
                 "titulo": "Dom Casmurro",
-                "identificador": "L001",
-                "disponibilidade": False
+                "id": "L001",
+                "disponivel": False
             }
         ]
 
-        with patch("builtins.input", side_effect=["001", "L001"]):
-            emprestar_livro(usuarios, livros)
+        with patch("builtins.input", side_effect=["1", "L001"]):
+            emprestar_livro(livros)
 
-        self.assertEqual(livros[0]["disponibilidade"], False)
+        self.assertEqual(livros[0]["disponivel"], False)
 
 
 if __name__ == "__main__":
