@@ -26,14 +26,27 @@ jobs:
           echo "Iniciando Build..."
           python -m compileall .
           echo "Build concluído com sucesso!"
+      
+      # 4. Security
+      - name: Instalar ferramentas de segurança
+        run: |
+          pip install -r requirements.txt
 
-      # 4. Test
+      - name: Bandit - SAST
+        run: |
+          bandit -r .
+
+      - name: pip-audit - SCA
+        run: |
+          pip-audit
+
+      # 5. Test
       - name: Test
         run: |
           echo "Executando testes automatizados..."
           python -m unittest discover -s tests -v
 
-      # 5. Deploy
+      # 6. Deploy
       - name: Deploy
         run: |
           echo "Deploy realizado com sucesso!"
