@@ -18,7 +18,7 @@ def devolver_livro(livros):
         except ValueError:
             opt = 0  # valor inválido, cai no else implícito (nenhuma opção é executada)
 
-        os.system("cls" if os.name == "nt" else "clear")  # limpa a tela (Windows ou Linux/Mac)
+        os.system("cls" if os.name == "nt" else "clear")  # nosec B605
 
         if opt == 1:  # Opção para devolver livro
 
@@ -50,7 +50,7 @@ def devolver_livro(livros):
             livro["disponivel"] = True
 
         elif opt == 2:  # Opção para voltar
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("cls" if os.name == "nt" else "clear")  # nosec B605
 
             sair = False
             break

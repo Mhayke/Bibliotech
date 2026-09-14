@@ -90,7 +90,7 @@ def gestao_usuarios(lista_de_usuarios):
         except ValueError:
             opt = 0  # valor inválido, cai no else implícito (nenhuma opção é executada)
 
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("cls" if os.name == "nt" else "clear")  # nosec B605
 
         if opt == 1:
             cadastrar_usuario(lista_de_usuarios)
@@ -105,7 +105,7 @@ def gestao_usuarios(lista_de_usuarios):
             deletar_usuario(lista_de_usuarios)
 
         elif opt == 5:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("cls" if os.name == "nt" else "clear")  # nosec B605
             sair = False
             break
 

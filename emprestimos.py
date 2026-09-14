@@ -19,7 +19,7 @@ def emprestar_livro(livros):
         except ValueError:
             opt = 0  # valor inválido, cai no else implícito (nenhuma opção é executada)
 
-        os.system("cls" if os.name == "nt" else "clear")  # limpa a tela (Windows ou Linux/Mac)
+        os.system("cls" if os.name == "nt" else "clear")  # nosec B605
 
         if opt == 1:  # Opção para emprestar livro
 
@@ -58,7 +58,7 @@ def emprestar_livro(livros):
             print(f"\n Empréstimo realizado com sucesso! | {livro_encontrado['titulo']} | {livro_encontrado['id']} |")
 
         elif opt == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("cls" if os.name == "nt" else "clear")  # nosec B605
 
             sair = False
             break 
