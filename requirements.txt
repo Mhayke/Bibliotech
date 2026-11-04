@@ -1,2 +1,3 @@
 bandit
 pip-audit
+urllib3>=2.8.0
