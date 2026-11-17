@@ -1,0 +1,7 @@
+---
+- name: Executar automação da aplicação Bibliotech
+  hosts: servidores
+  connection: local
+  roles:
+    - bibliotech
+

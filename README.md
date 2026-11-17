@@ -1,6 +1,8 @@
 # Bibliotech
 
-O **Bibliotech** é um sistema interativo em linha de comando (CLI) desenvolvido em Python para o gerenciamento básico de uma biblioteca, incluindo controle de acervo de livros, empréstimos, devoluções e gestão de usuários.
+O **Bibliotech** é um sistema interativo em linha de comando (CLI) desenvolvido em Python para o gerenciamento de biblioteca, incluindo controle de acervo de livros, empréstimos, devoluções e gestão de usuários.
+
+O projeto conta com esteira de CI/CD automatizada (GitHub Actions), conteinerização (Docker & Docker Compose), automação de provisionamento e configuração de ambiente (Ansible) e testes de infraestrutura (Molecule com Testinfra).
 
 ---
 
@@ -8,114 +10,190 @@ O **Bibliotech** é um sistema interativo em linha de comando (CLI) desenvolvido
 
 ### 📚 Gestão de Livros
 - **Cadastrar Livro**: Adiciona novos livros ao acervo garantindo IDs únicos.
-- **Livros Disponíveis**: Lista todos os livros cadastrados no momento que estão disponíveis para empréstimo.
-- **Buscar Livro**: Exibe informações detalhadas de um livro específico pesquisando pelo ID.
+- **Livros Disponíveis**: Lista todos os livros cadastrados disponíveis para empréstimo.
+- **Buscar Livro**: Exibe informações detalhadas de um livro pesquisando pelo ID.
 - **Deletar Livro**: Remove um livro do acervo através do seu ID.
 
 ### 🔄 Empréstimos e Devoluções
-- **Emprestar Livro**: Registra o empréstimo de um livro disponível e altera seu status para indisponível.
-- **Devolver Livro**: Processa a devolução de um livro emprestado e altera seu status de volta para disponível.
+- **Emprestar Livro**: Registra o empréstimo de um livro disponível e atualiza seu status para indisponível.
+- **Devolver Livro**: Processa a devolução de um livro emprestado e restaura sua disponibilidade.
 
 ### 👤 Gestão de Usuários
 - **Cadastrar Usuário**: Registra novos usuários com Nome e Identificador único.
 - **Listar Usuários**: Exibe todos os usuários cadastrados no sistema.
-- **Buscar Usuário**: Procura um usuário pelo seu identificador.
+- **Buscar Usuário**: Localiza um usuário pelo seu identificador.
 - **Deletar Usuário**: Remove um usuário do sistema.
+
+---
+
+## 📋 Menus da Aplicação
+
+### Menu Principal
+| Opção | Ação |
+| :---: | :--- |
+| **1** | Cadastrar livro |
+| **2** | Listar livros disponíveis |
+| **3** | Buscar livro |
+| **4** | Emprestar livro |
+| **5** | Devolver livro |
+| **6** | Deletar livro |
+| **7** | Abrir gestão de usuários |
+| **8** | Sair |
+
+### Gestão de Usuários
+| Opção | Ação |
+| :---: | :--- |
+| **1** | Cadastrar usuário |
+| **2** | Listar usuários |
+| **3** | Buscar usuário |
+| **4** | Deletar usuário |
+| **5** | Voltar ao menu principal |
 
 ---
 
 ## 📁 Estrutura do Projeto
 
-- **`main.py`**: Ponto de entrada da aplicação, onde fica o menu principal interativo.
-- **`livros.py`**: Módulo com a lista base de livros e funções de CRUD para livros.
-- **`emprestimos.py`**: Módulo para tratamento e registro das solicitações de empréstimo.
-- **`devolucoes.py`**: Módulo para processamento de devolução de livros.
-- **`usuarios.py`**: Módulo para cadastro e gerenciamento de usuários.
-- **`metodos.py`**: Módulo unificador das funcionalidades dos outros módulos.
+```text
+Bibliotech/
+├── .github/
+│   └── workflows/
+│       └── pipeline.yml          # Pipeline CI/CD no GitHub Actions
+├── Ansible/
+│   ├── inventory.ini             # Inventário Ansible para execução local
+│   ├── playbook.yml              # Playbook principal de execução da Role
+│   └── roles/
+│       └── bibliotech/           # Role Ansible para preparação do ambiente
+│           ├── defaults/
+│           │   └── main.yml      # Variáveis padrão (app_dir, venv_dir)
+│           ├── tasks/
+│           │   └── main.yml      # Tarefas de provisionamento e testes
+│           └── molecule/
+│               └── default/      # Cenário de testes de infraestrutura
+│                   ├── molecule.yml
+│                   ├── converge.yml
+│                   └── tests/
+│                       └── test_default.py  # Testes com Testinfra
+├── docs/
+│   └── baseline-v1.0.0.md        # Documentação e baseline da versão v1.0.0
+├── tests/                        # Testes unitários da aplicação (unittest)
+│   ├── test_cadastro_livro.py
+│   ├── test_cadastro_usuario.py
+│   ├── test_devolucao.py
+│   └── test_automatizado_emprestimo_python.py
+├── compose.yml                   # Orquestração de contêineres Docker Compose
+├── Dockerfile                    # Receita de build da imagem Docker
+├── devolucoes.py                 # Módulo de devoluções
+├── emprestimos.py                # Módulo de empréstimos
+├── livros.py                     # Módulo de acervo de livros
+├── main.py                       # Ponto de entrada interativo da aplicação
+├── metodos.py                    # Unificador das rotinas do sistema
+├── requirements.txt              # Dependências e ferramentas de segurança
+├── usuarios.py                   # Módulo de gestão de usuários
+└── README.md                     # Documentação geral do projeto
+```
 
 ---
 
-## 🛠️ Como Executar
+## 🛠️ Formas de Execução
 
-1. Certifique-se de ter o Python instalado (versão 3.x).
-2. Execute o script principal no terminal:
+### 1. Execução Local (Python)
+Requer Python 3.x instalado:
 
 ```bash
 python main.py
 ```
-<<<<<<< HEAD
 
-O programa limpa a tela automaticamente usando o comando apropriado para
-Windows, Linux ou macOS.
+### 2. Execução com Docker
+Você pode empacotar e executar a aplicação em um contêiner isolado:
 
-## Menus da aplicação
+```bash
+# Construir a imagem Docker
+docker build -t bibliotech .
 
-### Menu principal
+# Executar o contêiner interativo
+docker run -it --rm bibliotech
+```
 
-| Opção | Ação |
-| --- | --- |
-| 1 | Cadastrar livro |
-| 2 | Listar livros disponíveis |
-| 3 | Buscar livro |
-| 4 | Emprestar livro |
-| 5 | Devolver livro |
-| 6 | Deletar livro |
-| 7 | Abrir gestão de usuários |
-| 8 | Sair |
+### 3. Execução com Docker Compose
+Para subir o ambiente via Docker Compose com volume dedicado e rede isolada:
 
-### Gestão de usuários
+```bash
+# Iniciar o serviço interativo
+docker compose run --rm biblioteca
+```
 
-| Opção | Ação |
-| --- | --- |
-| 1 | Cadastrar usuário |
-| 2 | Listar usuários |
-| 3 | Buscar usuário |
-| 4 | Deletar usuário |
-| 5 | Voltar ao menu principal |
+---
 
-Os menus de empréstimo e devolução também oferecem a opção de voltar:
+## 🧪 Testes Automatizados da Aplicação
 
-- `1`: executar a operação;
-- `2`: voltar ao menu principal.
+Os testes unitários da aplicação foram implementados utilizando o módulo nativo `unittest` do Python.
 
-## 📁 Estrutura do projeto
-
-- [`main.py`](main.py): ponto de entrada e menu principal da aplicação.
-- [`livros.py`](livros.py): catálogo inicial e operações de cadastro, busca, listagem e exclusão de livros.
-- [`emprestimos.py`](emprestimos.py): fluxo de empréstimos e registro em memória.
-- [`devolucoes.py`](devolucoes.py): fluxo de devoluções e atualização da disponibilidade.
-- [`usuarios.py`](usuarios.py): cadastro, listagem, busca, exclusão e menu de usuários.
-- [`metodos.py`](metodos.py): importa e reúne os módulos usados pela aplicação.
-- [`tests/`](tests/): diretório reservado para testes automatizados; atualmente contém apenas `.gitkeep`.
-- [`docs/baseline-v1.0.0.md`](docs/baseline-v1.0.0.md): registro da baseline da versão 1.0.0.
-- [`.gitlab-ci.yml`](.gitlab-ci.yml): pipeline de build, testes e deploy simulado.
-
-## 🔄 Testes e integração contínua
-
-Para executar a descoberta de testes localmente:
+Para executar todos os testes automatizados:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-O pipeline do GitLab usa Python 3.11 e possui três etapas: build, testes com
-`unittest` e deploy simulado. Não há testes automatizados implementados no
-diretório `tests/` no estado atual do projeto.
+---
 
-## ⚠️ Limitações conhecidas
+## ⚙️ Automação com Ansible
 
-- Os dados de livros, usuários e empréstimos ficam somente em memória e são
-	perdidos quando o programa é encerrado.
-- Não há banco de dados nem persistência em arquivos.
-- Empréstimos não são vinculados a usuários e não há autenticação ou controle
-	de permissões.
-- O registro de empréstimos não é removido nem atualizado durante a devolução.
-- É possível excluir um livro que esteja emprestado, deixando o registro do
-	empréstimo inconsistente.
-- Não há validação específica para IDs, identificadores ou títulos vazios.
-- Opções de menu inválidas não exibem uma mensagem de erro específica.
-- A interface está disponível somente no terminal.
-- O módulo de livros não possui operação de atualização; as operações
-	disponíveis são cadastro, listagem, busca e exclusão.
-=======
->>>>>>> c322f695f648648ba9de25c1e26fa67c3e3c883d
+O projeto possui uma **Role Ansible** (`roles/bibliotech`) desenvolvida para preparar e validar automaticamente o ambiente de execução da aplicação.
+
+### O que a Role executa:
+1. **Verificação do Python 3**: Checa se o Python 3 está instalado.
+2. **Exibição da versão**: Mostra no console a versão encontrada.
+3. **Criação do diretório**: Cria a pasta `/tmp/bibliotech`.
+4. **Cópia da aplicação**: Copia seletivamente os arquivos Python do projeto via `role_path`.
+5. **Cópia do `requirements.txt`**: Transfere o arquivo de dependências.
+6. **Cópia dos testes**: Copia a pasta `tests/` para o ambiente.
+7. **Ambiente Virtual**: Cria um ambiente virtual Python em `/tmp/bibliotech/venv`.
+8. **Instalação de Dependências**: Instala as dependências via módulo `pip`.
+9. **Execução dos Testes**: Executa a suíte de testes com o interpretador do ambiente virtual.
+10. **Resultado dos Testes**: Exibe a saída detalhada dos testes.
+
+### Como executar o Playbook:
+
+```bash
+cd Ansible
+ansible-playbook -i inventory.ini playbook.yml
+```
+
+---
+
+## 🔬 Testes de Infraestrutura com Molecule & Testinfra
+
+O cenário de testes do **Molecule** valida se a automação do Ansible é idempotente e se prepara o ambiente corretamente.
+
+- **Driver**: `default` (execução local).
+- **Provisionador**: Ansible (`converge.yml`).
+- **Verificador**: Testinfra (`test_default.py`).
+
+### Como executar o ciclo de testes do Molecule:
+
+```bash
+cd Ansible/roles/bibliotech
+export ANSIBLE_ROLES_PATH="$(pwd)/.."
+molecule test
+```
+
+Etapas validadas pelo Molecule:
+- **Syntax**: Validação da sintaxe dos playbooks da role.
+- **Converge**: Execução da role aplicando o estado desejado.
+- **Idempotence**: Segunda execução para garantir que nenhuma tarefa sofra alterações inesperadas (`changed=0`).
+- **Verify**: Execução dos testes automatizados com **Testinfra** validando a integridade dos diretórios, executável do venv, dependências e testes.
+
+---
+
+## 🔄 Pipeline CI/CD (GitHub Actions)
+
+A esteira de integração contínua (`.github/workflows/pipeline.yml`) é disparada automaticamente a cada `push` na branch `main`:
+
+1. **Checkout**: Obtém o código-fonte do repositório.
+2. **Setup Python**: Configura o runtime do Python 3.13.
+3. **Build**: Realiza a compilação prévia do código (`python -m compileall .`).
+4. **Segurança**:
+   - **SAST**: Análise estática com **Bandit** (`bandit -r .`).
+   - **SCA**: Análise de vulnerabilidades em dependências com **pip-audit**.
+5. **Testes Automatizados**: Execução de todos os testes unitários com o `unittest`.
+6. **Deploy**: Etapa simulada de entrega contínua.

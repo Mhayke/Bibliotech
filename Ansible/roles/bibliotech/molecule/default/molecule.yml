@@ -1,0 +1,23 @@
+---
+driver:
+  name: default
+  options:
+    ansible_connection_options:
+      ansible_connection: local
+
+platforms:
+  - name: localhost
+
+provisioner:
+  name: ansible
+  connection_options:
+    ansible_connection: local
+  inventory:
+    host_vars:
+      localhost:
+        ansible_connection: local
+
+verifier:
+  name: testinfra
+  options:
+    connection: local

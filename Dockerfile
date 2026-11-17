@@ -1,19 +1,26 @@
-# 1. Usando a versão mais atual e a variante "slim" para reduzir tamanho e vulnerabilidades
+# 1. Usando a variante slim para reduzir tamanho e vulnerabilidades
 FROM python:3.14-slim
 
-# 2. Atualizar o sistema logo no início. 
-# 'rm -rf /var/lib/apt/lists/*' no final, é uma boa prática para apagar os ficheiros temporários do apt-get e deixar a imagem ainda menor.
-RUN apt-get update && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+# 2. Atualizar o sistema
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# 3. Copiar APENAS o requirements.txt
+# 3. Copiar apenas o requirements.txt
 COPY requirements.txt .
 
-# 4. Instalar as dependências do Python.
+# 4. Instalar as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 5. copiar o restante do código (main.py, etc.)
+# 5. Copiar o código
 COPY . .
+
+# 6. Remover o pip da imagem final
+RUN rm -rf /usr/local/lib/python3.14/site-packages/pip \
+           /usr/local/bin/pip \
+           /usr/local/bin/pip3
 
 CMD ["python", "main.py"]

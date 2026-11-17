@@ -1,0 +1,72 @@
+---
+# 1. Verificar se o Python 3 está instalado
+- name: Verificar se o Python 3 está instalado
+  ansible.builtin.command: python3 --version
+  register: python_version
+  changed_when: false
+
+# 2. Exibir a versão do Python encontrada
+- name: Exibir a versão do Python encontrada
+  ansible.builtin.debug:
+    var: python_version.stdout
+
+# 3. Criar o diretório /tmp/bibliotech
+- name: Criar o diretório /tmp/bibliotech
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: directory
+    mode: '0755'
+
+# 4. Copiar os arquivos Python da aplicação para o ambiente de execução
+- name: Copiar os arquivos Python da aplicação para o ambiente de execução
+  ansible.builtin.copy:
+    src: "{{ role_path }}/../../../{{ item }}"
+    dest: "{{ app_dir }}/{{ item }}"
+    mode: '0644'
+  loop:
+    - devolucoes.py
+    - emprestimos.py
+    - livros.py
+    - main.py
+    - metodos.py
+    - usuarios.py
+
+# 5. Copiar o arquivo requirements.txt
+- name: Copiar o arquivo requirements.txt
+  ansible.builtin.copy:
+    src: "{{ role_path }}/../../../requirements.txt"
+    dest: "{{ app_dir }}/requirements.txt"
+    mode: '0644'
+
+# 6. Copiar a pasta tests/
+- name: Copiar a pasta tests
+  ansible.builtin.copy:
+    src: "{{ role_path }}/../../../tests"
+    dest: "{{ app_dir }}/"
+
+# 7. Criar um ambiente virtual Python
+- name: Criar um ambiente virtual Python
+  ansible.builtin.command:
+    cmd: python3 -m venv "{{ venv_dir }}"
+    creates: "{{ venv_dir }}/bin/activate"
+
+# 8. Instalar as dependências da aplicação
+- name: Instalar as dependências da aplicação
+  ansible.builtin.pip:
+    requirements: "{{ app_dir }}/requirements.txt"
+    virtualenv: "{{ venv_dir }}"
+    virtualenv_command: python3 -m venv
+
+# 9. Executar os testes automatizados da aplicação
+- name: Executar os testes automatizados da aplicação
+  ansible.builtin.command:
+    cmd: "{{ venv_dir }}/bin/python -m unittest discover -s tests -v"
+    chdir: "{{ app_dir }}"
+  register: test_results
+  changed_when: false
+
+# 10. Exibir o resultado dos testes
+- name: Exibir o resultado dos testes
+  ansible.builtin.debug:
+    var: test_results.stdout_lines
+

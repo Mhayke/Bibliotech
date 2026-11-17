@@ -1,3 +1,4 @@
 bandit
 pip-audit
 prometheus-client>=0.20.0
+urllib3>=2.8.0
