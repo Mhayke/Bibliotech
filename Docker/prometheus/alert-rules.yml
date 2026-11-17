@@ -1,0 +1,29 @@
+groups:
+  - name: bibliotech_alerts
+    rules:
+      - alert: BibliotechInstanciaInativa
+        expr: up{job="bibliotech"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instância da aplicação Bibliotech inativa"
+          description: "O serviço Bibliotech não está respondendo na porta 8000 há mais de 1 minuto."
+
+      - alert: AltaTaxaDeErros
+        expr: increase(bibliotech_erros_total[5m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alta ocorrência de erros nas operações"
+          description: "Foram detectados mais de 5 erros nas operações do Bibliotech nos últimos 5 minutos."
+
+      - alert: AcervoDisponivelEsgotado
+        expr: bibliotech_livros_disponiveis == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Nenhum livro disponível no acervo"
+          description: "Não há livros disponíveis para empréstimo no momento."

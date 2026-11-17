@@ -7,6 +7,11 @@ class Biblioteca:
         self.lista_de_usuarios = []    # lista compartilhada de usuários
  
     def iniciar_biblioteca(self):
+        # Inicializa o monitoramento do Prometheus e o estado inicial das métricas
+        if hasattr(self.m, "monitoramento"):
+            self.m.monitoramento.iniciar_monitoramento()
+            self.m.monitoramento.atualizar_metricas_livros(self.lista_de_livros)
+            self.m.monitoramento.atualizar_metricas_usuarios(self.lista_de_usuarios)
 
         sair = True  # variável para controlar o loop
         while sair:  # condição de loop para continuar o programa
@@ -56,7 +61,7 @@ class Biblioteca:
                 print(" ---------------------------------------------------")
                 sair = False
                 break # finaliza o loop do programa
-
+ 
  
 if __name__ == "__main__":
 

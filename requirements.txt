@@ -1,2 +1,3 @@
 bandit
 pip-audit
+prometheus-client>=0.20.0

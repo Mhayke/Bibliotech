@@ -1,4 +1,5 @@
 import os
+import monitoramento
 
 livros = [
     {
@@ -30,6 +31,7 @@ def cadastrar_livro(lista_de_livros):
     for livro in lista_de_livros:
         if livro["id"] == novo_id:
             print("\n Erro: já existe um livro com esse ID.")
+            monitoramento.registrar_cadastro_livro(sucesso=False)
             return
 
     titulo = input("\n Digite o título do livro: ")
@@ -41,6 +43,8 @@ def cadastrar_livro(lista_de_livros):
     }
 
     lista_de_livros.append(novo_livro)
+    monitoramento.registrar_cadastro_livro(sucesso=True)
+    monitoramento.atualizar_metricas_livros(lista_de_livros)
 
     print(f"\n Livro '{titulo}' cadastrado com sucesso!")
 
@@ -56,9 +60,11 @@ def buscar_livro(lista_de_livros):
         if livro["id"] == identificador:
             status = "Disponível" if livro["disponivel"] else "Emprestado"
             print(f"\n ID: {livro['id']} | Título: {livro['titulo']} | Status: {status}")
+            monitoramento.registrar_busca_livro(encontrado=True)
             return
 
     print("\n Livro não encontrado.")
+    monitoramento.registrar_busca_livro(encontrado=False)
 
 
 def deletar_livro(lista_de_livros):
@@ -72,9 +78,12 @@ def deletar_livro(lista_de_livros):
         if livro["id"] == identificador:
             lista_de_livros.remove(livro)
             print(f"\n Livro '{livro['titulo']}' deletado com sucesso!")
+            monitoramento.registrar_delecao_livro(sucesso=True)
+            monitoramento.atualizar_metricas_livros(lista_de_livros)
             return
 
     print("\n Livro não encontrado.")
+    monitoramento.registrar_delecao_livro(sucesso=False)
 
 
 def listar_livros_disp(lista_de_livros):
@@ -91,6 +100,9 @@ def listar_livros_disp(lista_de_livros):
 
     if not algum_disponivel:
         print("\n Nenhum livro disponível no momento.")
+
+    monitoramento.registrar_operacao("listar_livros_disp", "sucesso")
+    monitoramento.atualizar_metricas_livros(lista_de_livros)
 
 
 if __name__ == "__main__":
