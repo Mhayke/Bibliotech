@@ -1,4 +1,5 @@
 import os
+import monitoramento
 
 
 def devolver_livro(livros):
@@ -36,14 +37,18 @@ def devolver_livro(livros):
 
                     if livro["disponivel"]:
                         print("\n Este livro já está disponível.")
+                        monitoramento.registrar_operacao("devolver_livro", "ja_disponivel")
                         continue
 
                     livro["disponivel"] = True
+                    monitoramento.registrar_devolucao(sucesso=True)
+                    monitoramento.atualizar_metricas_livros(livros)
                     print(f"\n Devolução realizado com sucesso! | {livro['titulo']} | {livro['id']} |")
                     continue
 
             if not livro_encontrado:
                 print("\n Erro: livro não encontrado.")
+                monitoramento.registrar_devolucao(sucesso=False)
                 continue
 
             # Marca o livro como disponivel

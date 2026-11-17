@@ -1,4 +1,5 @@
 import os
+import monitoramento
 
 usuarios = []
 
@@ -15,6 +16,7 @@ def cadastrar_usuario(lista_de_usuarios):
     for usuario in lista_de_usuarios:
         if usuario["identificador"] == identificador:
             print("\n Erro: já existe um usuário com esse identificador.")
+            monitoramento.registrar_cadastro_usuario(sucesso=False)
             return
 
     usuario = {
@@ -23,6 +25,8 @@ def cadastrar_usuario(lista_de_usuarios):
     }
 
     lista_de_usuarios.append(usuario)
+    monitoramento.registrar_cadastro_usuario(sucesso=True)
+    monitoramento.atualizar_metricas_usuarios(lista_de_usuarios)
 
     print("\n Usuário cadastrado com sucesso!")
 
@@ -34,10 +38,15 @@ def listar_usuarios(lista_de_usuarios):
 
     if not lista_de_usuarios:
         print("\n Nenhum usuário cadastrado.")
+        monitoramento.registrar_operacao("listar_usuarios", "vazio")
+        monitoramento.atualizar_metricas_usuarios(lista_de_usuarios)
         return
 
     for usuario in lista_de_usuarios:
         print(f" Nome: {usuario['nome']} | Identificador: {usuario['identificador']}")
+
+    monitoramento.registrar_operacao("listar_usuarios", "sucesso")
+    monitoramento.atualizar_metricas_usuarios(lista_de_usuarios)
 
 
 def buscar_usuario(lista_de_usuarios):
@@ -50,9 +59,11 @@ def buscar_usuario(lista_de_usuarios):
     for usuario in lista_de_usuarios:
         if usuario["identificador"] == identificador:
             print(f"\n Nome: {usuario['nome']} | Identificador: {usuario['identificador']}")
+            monitoramento.registrar_busca_usuario(encontrado=True)
             return
 
     print("\n Usuário não encontrado.")
+    monitoramento.registrar_busca_usuario(encontrado=False)
 
 
 def deletar_usuario(lista_de_usuarios):
@@ -66,9 +77,12 @@ def deletar_usuario(lista_de_usuarios):
         if usuario["identificador"] == identificador:
             lista_de_usuarios.remove(usuario)
             print("\n Usuário deletado com sucesso!")
+            monitoramento.registrar_delecao_usuario(sucesso=True)
+            monitoramento.atualizar_metricas_usuarios(lista_de_usuarios)
             return
 
     print("\n Usuário não encontrado.")
+    monitoramento.registrar_delecao_usuario(sucesso=False)
 
 
 def gestao_usuarios(lista_de_usuarios):

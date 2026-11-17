@@ -1,4 +1,5 @@
 import os
+import monitoramento
 
 emprestimos = []  # lista para armazenar os empréstimos realizados
 
@@ -38,10 +39,12 @@ def emprestar_livro(livros):
 
             if livro_encontrado is None:
                 print("\n Erro: livro não encontrado.")
+                monitoramento.registrar_emprestimo(sucesso=False)
                 continue
 
             if not livro_encontrado["disponivel"]:
                 print(f"\n Erro: o livro |{livro_encontrado['titulo']}| já está emprestado.")
+                monitoramento.registrar_emprestimo(sucesso=False)
                 continue
 
             # Marca o livro como indisponível
@@ -54,6 +57,8 @@ def emprestar_livro(livros):
             }
 
             emprestimos.append(emprestimo)
+            monitoramento.registrar_emprestimo(sucesso=True)
+            monitoramento.atualizar_metricas_livros(livros)
 
             print(f"\n Empréstimo realizado com sucesso! | {livro_encontrado['titulo']} | {livro_encontrado['id']} |")
 
@@ -69,4 +74,3 @@ if __name__ == "__main__":
     import livros
 
     emprestar_livro(livros.livros)
-
